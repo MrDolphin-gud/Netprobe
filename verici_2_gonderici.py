@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import random
 import socket
 import time
 from pathlib import Path
@@ -37,26 +36,18 @@ class Verici:
         deneme = 0
         while deneme <= self.ayar.max_yeniden_gonderim:
             deneme += 1
-            if self.ayar.yapay_kayip_orani > 0 and random.random() < self.ayar.yapay_kayip_orani:
-                self.logger.log(
-                    "packet_dropped_simulated",
-                    packet_type=paket["type"],
-                    seq=paket["seq"],
-                    attempt=deneme,
-                )
-            else:
-                sock.sendto(paket_kodla(paket), self.hedef)
-                self.logger.log(
-                    "packet_sent",
-                    packet_type=paket["type"],
-                    seq=paket["seq"],
-                    attempt=deneme,
-                )
+            sock.sendto(paket_kodla(paket), self.hedef)
+            self.logger.log(
+                "packet_sent",
+                packet_type=paket["type"],
+                seq=paket["seq"],
+                attempt=deneme,
+            )
 
             try:
                 ham_ack, _ = sock.recvfrom(65535)
                 ack = paket_coz(ham_ack)
-            except socket.timeout:
+            except (socket.timeout, ConnectionResetError, OSError):
                 self.logger.log("timeout", packet_type=paket["type"], seq=paket["seq"], attempt=deneme)
                 continue
 

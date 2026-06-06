@@ -1,4 +1,5 @@
 import argparse
+import os
 from pathlib import Path
 
 from verici_0_ayar import VericiAyar
@@ -13,7 +14,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--timeout", type=float, default=0.4)
     parser.add_argument("--max-retry", type=int, default=5)
     parser.add_argument("--chunk", type=int, default=1024)
-    parser.add_argument("--loss", type=float, default=0.0, help="Yapay paket kayip orani [0.0-1.0]")
     return parser.parse_args()
 
 
@@ -25,8 +25,10 @@ def main() -> None:
         timeout_saniye=args.timeout,
         max_yeniden_gonderim=args.max_retry,
         payload_boyutu=args.chunk,
-        yapay_kayip_orani=args.loss,
     )
+    env_log = os.environ.get("NETPROBE_VERICI_LOG")
+    if env_log:
+        ayar.log_dosyasi = Path(env_log)
     verici = Verici(ayar)
     basarili = verici.dosya_gonder(Path(args.dosya))
     if basarili:

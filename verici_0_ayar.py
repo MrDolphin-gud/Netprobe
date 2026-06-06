@@ -10,4 +10,3 @@ class VericiAyar:
     timeout_saniye: float = 0.4
     max_yeniden_gonderim: int = 5
     log_dosyasi: Path = Path("logs/verici_olaylar.jsonl")
-    yapay_kayip_orani: float = 0.0
