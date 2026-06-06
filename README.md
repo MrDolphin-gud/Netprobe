@@ -10,8 +10,7 @@ Temel özellikler:
 
 - Stop-and-wait tabanlı güvenilir aktarım (sequence number, ACK, timeout, retransmission)
 - Paket başına SHA-256 checksum ve aktarım sonu dosya hash doğrulaması
-- Yapılandırılabilir yapay paket kaybı simülasyonu (verici ve alıcı tarafı)
-- Otomatik karşılaştırmalı deney çalıştırıcı ve grafik üretici
+- Yapılandırılabilir yapay paket kaybı simülasyonu
 
 ## Kullanım
 
@@ -46,10 +45,10 @@ Grafikler `deney_sonuclari/` klasörüne, özet JSON `deney_sonuclari/deney_ozet
 Alıcı tarafında tüm arayüzlerden dinlemek için `--host 0.0.0.0` kullanılır. Verici tarafında alıcının IP adresi belirtilir:
 
 ```bash
-# Alıcı (uzak makine)
+# Alıcı
 python alici_2_main.py --host 0.0.0.0 --port 9000
 
-# Verici (yerel makine)
+# Verici 
 python verici_3_main.py dosya.bin --host 192.168.1.42 --port 9000
 ```
 
@@ -102,19 +101,19 @@ Tüm paketler JSON olarak kodlanır ve UTF-8 byte dizisi şeklinde gönderilir.
   Verici                             Alıcı
     │                                  │
     │──── START (dosya bilgisi) ──────>│
-    │<─── START_ACK ──────────────────│
+    │<─── START_ACK ──────────────────-│
     │                                  │
-    │──── DATA seq=0 ────────────────>│
-    │<─── ACK  seq=0 ────────────────│
+    │──── DATA seq=0 ─────────────────>│
+    │<─── ACK  seq=0 ──────────────────│
     │                                  │
-    │──── DATA seq=1 ────────────────>│
+    │──── DATA seq=1 ─────────────────>│
     │         × (paket kayboldu)       │
     │         (timeout)                │
-    │──── DATA seq=1 ────────────────>│  ← yeniden gönderim
-    │<─── ACK  seq=1 ────────────────│
+    │──── DATA seq=1 ─────────────────>│  ← yeniden gönderim
+    │<─── ACK  seq=1 ──────────────────│
     │              ...                 │
-    │──── FIN ───────────────────────>│
-    │<─── FIN_ACK ───────────────────│
+    │──── FIN ────────────────────────>│
+    │<─── FIN_ACK ─────────────────────│
     │                                  │
 ```
 
