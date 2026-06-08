@@ -26,20 +26,6 @@ python alici_2_main.py --host 127.0.0.1 --port 9000
 python verici_3_main.py dosya.bin --host 127.0.0.1 --port 9000
 ```
 
-**3) Metrikleri görüntüle:**
-
-```bash
-python analiz_0_metrik.py --log logs/verici_olaylar.jsonl
-```
-
-**4) Karşılaştırmalı deneyleri çalıştır:**
-
-```bash
-python analiz_1_deney.py
-```
-
-Grafikler `deney_sonuclari/` klasörüne, özet JSON `deney_sonuclari/deney_ozet.json` dosyasına kaydedilir.
-
 ### Uzak bilgisayara aktarım
 
 Alıcı tarafında tüm arayüzlerden dinlemek için `--host 0.0.0.0` kullanılır. Verici tarafında alıcının IP adresi belirtilir:
@@ -131,8 +117,6 @@ Tüm paketler JSON olarak kodlanır ve UTF-8 byte dizisi şeklinde gönderilir.
 
 ## Karşılaştırmalı Deneyler
 
-`analiz_1_deney.py` aşağıdaki 4 senaryoyu otomatik olarak çalıştırır:
-
 | # | Senaryo | Değişken | Test Değerleri |
 |---|---------|----------|----------------|
 | 1 | Dosya boyutunun etkisi | Dosya boyutu | 1 KB, 10 KB, 100 KB, 500 KB |
@@ -162,8 +146,6 @@ Aktarım sırasında tüm olaylar `logs/` dizininde JSONL formatında kaydedilir
 ├── verici_1_dosya.py       Dosya hazırlama / parçalama
 ├── verici_2_gonderici.py   Stop-and-wait gönderim motoru
 ├── verici_3_main.py        Verici giriş noktası
-├── analiz_0_metrik.py      Performans metrikleri (konsol)
-├── analiz_1_deney.py       Otomatik deney + grafik üretici
 └── README.md
 ```
 
